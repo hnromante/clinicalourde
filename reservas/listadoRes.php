@@ -1,4 +1,4 @@
-<?php
+<?php 
 include '../extend/header.php';
 require_once ('../conexion/conexion.php');
 
@@ -20,7 +20,7 @@ if (isset($_REQUEST['codest'])){
     </div>
     <div class="col s12 m6 l6">
       <p class="flow-text grey-text text-darken-2">Aca puedes ver todas las reservas asociadas a tu cuenta!</p>
-
+ 
     </div>
   </div>
 </div>
@@ -48,7 +48,7 @@ if (isset($_REQUEST['codest'])){
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
+                    <?php 
 
                     $lista = $daoRes->obtenerReservasUsu(1);
 
@@ -71,7 +71,7 @@ if (isset($_REQUEST['codest'])){
                         }
                         echo '</tr>';
                     }
-
+                    
               ?>
                 </tbody>
             </table>
@@ -86,3 +86,4 @@ if (isset($_REQUEST['codest'])){
 
 </body>
 </html>
+

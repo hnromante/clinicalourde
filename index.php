@@ -1,4 +1,4 @@
-<?php 
+<?php
 include 'extend/headerInicio.php';
 require ("model/usuario.php");
 require ('conexion/conexion.php');
@@ -6,7 +6,6 @@ require ("conexion/daoUsuario.php");
 
 $daoUsu = new DaoUsuario();
 if (isset($_REQUEST['btn_reg'])){
-
   $nom = $_REQUEST['regnom'];
   $pass = $_REQUEST['regpass'];
   $email = $_REQUEST['regmail'];
@@ -16,6 +15,12 @@ if (isset($_REQUEST['btn_reg'])){
 
   $daoUsu->agregarUsuario($u);
 }
+//Metodo comprobarUsuarioJson
+if (isset($_REQUEST['comprobarusu'])){
+  $nom = $_REQUEST['regnom'];
+  echo json_encode($daoUsu->consultarUsuarioJson($nom));
+}
+
 
 if (isset($_REQUEST['btn_log'])){
 
@@ -31,6 +36,10 @@ if (isset($_REQUEST['btn_log'])){
   }else{
     echo 'Revise el usuario o contrasenia';
   }
+}
+
+if(isset($_REQUEST['listarusu'])){
+  echo json_encode($daoUsu->obtenerUsuariosJson());
 }
 
 ?>
@@ -54,7 +63,7 @@ if (isset($_REQUEST['btn_log'])){
          <div class="card-content grey-text text-darken-3">
          <span class="card-title center-align"><b>Crear Cuenta</b></span>
            <p>Si no tiene cuenta, creela aquí.</p>
-           <form method="POST">
+           <form method="GET">
            <div class="col s12 m6 l6">
                <input type="text" id="regnom"  name="regnom" class="validate">
                <label for="regnom">Nombre de Usuario</label>
@@ -80,7 +89,7 @@ if (isset($_REQUEST['btn_log'])){
          <div class="card-content grey-text text-darken-3">
          <span class="card-title center-align"><b>Iniciar Sesion</b></span>
            <p>Ingrese con su email y contraseña</p>
-           <form method="POST">
+           <form method="GET">
            <div class="col s12 m12 l12">
                <input type="text" id="lognom"  name="lognom" class="validate">
                <label for="lognom">Nombre de usuario</label>

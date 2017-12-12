@@ -1,4 +1,4 @@
-<?php 
+<?php
 include '../extend/header.php';
 
 require ('../model/paciente.php'); #IMPORT DE JAVA
@@ -48,7 +48,7 @@ if (isset($_REQUEST['btn_consultar'])){
     $dir_pac = $p->getDir_pac();
     $usu_pac = $p->getUsu_pac();
     $sal_pac = $p->getSal_pac();
-    //Si se encuentra el paciente, deshabilitamos 
+    //Si se encuentra el paciente, deshabilitamos
     $btnagre ='disabled';
     $btnmod = '';
     $btneli='';
@@ -92,7 +92,7 @@ if (isset($_REQUEST['btn_modificar'])){
     </div>
     <div class="col s12 m6 l6">
       <p class="flow-text grey-text text-darken-2">Bienvenido a clinica Lourde, JPerez!. Acá podrás agregar a tu familia para que puedan ser atendidos por nuestros especialistas. Revisa nuestras especialidades en el menu de la izquierda</p>
- 
+
     </div>
   </div>
   <div style="margin-top:3%" class="row">
@@ -100,8 +100,8 @@ if (isset($_REQUEST['btn_modificar'])){
   <div class="card horizontal">
       <div class="card-content grey-text text-darken-2">
           <span class="card-title">Agregar un paciente</span>
-          <form class="form" action="index.php" method="POST" >
-                
+          <form class="form" action="index.php" method="GET" >
+
                 <div class="input-field col s6 m6 l2">
                   <input type="text" id="tf_rut"  name="tf_rut" required value="<?php echo $rut_pac; ?>" >
                   <label for="tf_rut">Rut</label>
@@ -150,7 +150,7 @@ if (isset($_REQUEST['btn_modificar'])){
                 <button name="btn_eliminar" id="btn_eliminar" type="submit" class="btn red" <?php echo $btneli; ?> >Eliminar <i class="material-icons">delete</i></button>
                 </div>
 
-              </form> 
+              </form>
       </div>
   </div>
   </div>
@@ -175,9 +175,11 @@ if (isset($_REQUEST['btn_modificar'])){
                 </thead>
                 <tbody>
                     <?php
-                    
+
 
 			               $lista = $daoPac->obtenerPacientesUsu(1);
+										 $lista_json = $daoPac->obtenerPacientesJson(1);
+										 //echo json_encode($lista_json);
         			        foreach($lista as $p){
         			            echo '<tr>';
         			            echo '<td>'.$p->getRut_pac().'</td>';
@@ -190,7 +192,7 @@ if (isset($_REQUEST['btn_modificar'])){
         			            echo '<td><a href="index.php?codeli='.$p->getRut_pac().'"><i class="material-icons">delete</i></a></td>';
         			            echo '</tr>';
         			        }
-			        
+
         			?>
                 </tbody>
             </table>
@@ -201,4 +203,3 @@ if (isset($_REQUEST['btn_modificar'])){
 <?php include '../extend/scripts.php'?>
 </body>
 </html>
-

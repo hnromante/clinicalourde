@@ -1,10 +1,10 @@
-<?php 
+<?php
 
 // require ('../model/paciente.php');
 
 //Este DAO contiene los metodo para Crear, Leer, Actualizar y Eliminar. Ademas de consultar si existe.
 // Las variables de rut, nom, ape, tel y dir son propias de la clase paciente,
-// mientras que usu_pac es una FK que hace referencia a la clase Usuario, quien agrego al paciente, lo mismo con sal_pac. 
+// mientras que usu_pac es una FK que hace referencia a la clase Usuario, quien agrego al paciente, lo mismo con sal_pac.
 
 
 class DaoPaciente extends AccesoDatos{ #Herencia EXTENDS con, conexion(), desconexion()
@@ -35,7 +35,25 @@ class DaoPaciente extends AccesoDatos{ #Herencia EXTENDS con, conexion(), descon
         $this->desconexion();
         return $lista;
     }
+    public function obtenerPacientesJson($id_usu){
 
+        $this->conexion();
+        $lista = array();
+        $sql = "SELECT rut_pac, nom_pac, ape_pac, tel_pac, dir_pac,nom_usr,nom_sal FROM `pacientes`,`usuarios`,`salud` WHERE pacientes.sal_pac = salud.id_sal AND pacientes.usu_pac = usuarios.id_usr AND pacientes.usu_pac = '$id_usu'";
+        $st = $this->con->query($sql);
+
+
+        //Asignacion de variable 'dinamica'
+        while ($obj = $st->fetch_object()) {
+
+
+            $lista[] = $obj;
+
+        }
+        $this->desconexion();
+        return $lista;
+
+    }
     //Metodo para capturar los pacientes EXCLUSIVOS de solo un usuario.
     public function obtenerPacientesUsu($id_usu){
 
@@ -43,7 +61,7 @@ class DaoPaciente extends AccesoDatos{ #Herencia EXTENDS con, conexion(), descon
         $lista = array();
         $sql = "SELECT rut_pac, nom_pac, ape_pac, tel_pac, dir_pac,nom_usr,nom_sal FROM `pacientes`,`usuarios`,`salud` WHERE pacientes.sal_pac = salud.id_sal AND pacientes.usu_pac = usuarios.id_usr AND pacientes.usu_pac = '$id_usu'";
         $st = $this->con->query($sql);
-        
+
 
         //Asignacion de variable 'dinamica'
         while ($rs = $st->fetch_array(MYSQL_BOTH)) {
@@ -91,12 +109,12 @@ class DaoPaciente extends AccesoDatos{ #Herencia EXTENDS con, conexion(), descon
         $this->desconexion();
         return 0;
     }
-    
-    
+
+
     //Metodo para agregar pacientes (X USUARIO)
     public function agregarPaciente(Paciente $p){
         $this->conexion();
-        
+
         $rut_pac = $p->getRut_pac();
         $nom_pac = $p->getNom_pac();
         $ape_pac = $p->getApe_pac();
@@ -125,7 +143,7 @@ class DaoPaciente extends AccesoDatos{ #Herencia EXTENDS con, conexion(), descon
 
         $sql = "DELETE FROM pacientes WHERE rut_pac='$rut_pac'";
         $st = $this->con->query($sql);
-        
+
         if($this->con->affected_rows > 0){
             echo 'Se elimino correctamente el paciente';
         }else{
