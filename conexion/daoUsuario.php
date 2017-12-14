@@ -102,7 +102,7 @@ class DaoUsuario extends AccesoDatos{
         $this->conexion();
         $sql = "SELECT * FROM usuarios WHERE nom_usr='$nom_usu' AND pass_usr='$pass_usu'";
         $st = $this->con->query($sql);
-        echo $sql;
+
 
         $val = mysqli_fetch_assoc($st);
 
@@ -132,10 +132,10 @@ class DaoUsuario extends AccesoDatos{
         $st = $this->con->query($sql);
 
         if ($this->con->affected_rows > 0){
-            echo 'Se agrego el usuario correctamente';
+            echo 'Se agrego el usuario correctamente. status=true';
 
         }else{
-            echo 'No se pudo agregar el usuario';
+            echo 'No se pudo agregar el usuario. status=false';
         }
         $this->desconexion();
     }

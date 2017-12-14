@@ -35,25 +35,7 @@ class DaoPaciente extends AccesoDatos{ #Herencia EXTENDS con, conexion(), descon
         $this->desconexion();
         return $lista;
     }
-    public function obtenerPacientesJson($id_usu){
 
-        $this->conexion();
-        $lista = array();
-        $sql = "SELECT rut_pac, nom_pac, ape_pac, tel_pac, dir_pac,nom_usr,nom_sal FROM `pacientes`,`usuarios`,`salud` WHERE pacientes.sal_pac = salud.id_sal AND pacientes.usu_pac = usuarios.id_usr AND pacientes.usu_pac = '$id_usu'";
-        $st = $this->con->query($sql);
-
-
-        //Asignacion de variable 'dinamica'
-        while ($obj = $st->fetch_object()) {
-
-
-            $lista[] = $obj;
-
-        }
-        $this->desconexion();
-        return $lista;
-
-    }
     //Metodo para capturar los pacientes EXCLUSIVOS de solo un usuario.
     public function obtenerPacientesUsu($id_usu){
 
@@ -129,9 +111,9 @@ class DaoPaciente extends AccesoDatos{ #Herencia EXTENDS con, conexion(), descon
         $st = $this->con->query($sql);
 
         if($this->con->affected_rows > 0){
-            echo 'Se ha agregado el paciente correctamente';
+            echo 'Se ha agregado el paciente correctamente. status=true';
         }else{
-            echo 'No se ha podido agregar el paciente';
+            echo 'No se ha podido agregar el paciente. status=false';
         }
         $this->desconexion();
 
@@ -173,6 +155,40 @@ class DaoPaciente extends AccesoDatos{ #Herencia EXTENDS con, conexion(), descon
         }
         $this->desconexion();
     }
+
+    //METODOS JSON
+    public function obtenerPacientesJson($id){
+        $lista = array();
+        $this->conexion();
+        $sql = "SELECT * FROM pacientes, salud WHERE sal_pac=id_sal AND usu_pac=$id";
+        $st = $this->con->query($sql);
+        while($row = mysqli_fetch_object($st)){
+            $lista[] = $row;
+        }
+
+        $this->desconexion();
+        return $lista;
+    }
+
+    public function consultarpac($rut){
+        $lista = array();
+        $this->conexion();
+        $sql = "SELECT * FROM pacientes, salud WHERE sal_pac=id_sal AND rut_pac=$rut";
+        $st = $this->con->query($sql);
+        while($row = mysqli_fetch_object($st)){
+            $lista[] = $row;
+        }
+
+        $this->desconexion();
+        if (empty($lista)) {
+            echo "status=false ";
+        } else {
+          # code...
+        }
+
+        return $lista;
+    }
+
 }
 
 ?>

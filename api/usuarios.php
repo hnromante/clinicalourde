@@ -1,4 +1,5 @@
 <?php
+echo "<h1>JSON CLINICA LOURDE - USURIOS</h1>";
 require ("../model/usuario.php");
 require ('../conexion/conexion.php');
 require ("../conexion/daoUsuario.php");
@@ -29,7 +30,7 @@ if (isset($_REQUEST['comprobarusu'])){
 //LISTAR TODOS LOS USUARIOS
 if(isset($_REQUEST['listarusu'])){
 
- 
+  echo "<h4>LISTADO DE USUARIOS EN JSON</h4>";
   echo json_encode($daoUsu->obtenerUsuariosJson());
 }
 //COMPROBAR EL LOGIN, DEVUELVE UN OBJETO JSON SI ENCUENTRA Y NULL SI NO
@@ -39,17 +40,21 @@ if(isset($_REQUEST['comprobarlogin'])){
     $nom = $_REQUEST['nom'];
     $pass = $_REQUEST['contra'];
     $res = $daoUsu->comprobarloginJson($nom,$pass);
-
+    echo "<br>";
+    echo $nom;
+    echo "<br>";
+    echo $pass;
 
     if ($res){
-
+        echo "<h4>USUARIO ENCONTRADO</h4>";
         echo json_encode($res);
     }else{
-
+        echo "<h4>NO SE ENCONTRO UN USUARIO CON ESE NOMBRE Y CONTRASEÑA</h4>";
         echo json_encode($res);
     }
   }else{
-
+    echo "<h4>REVISE EL URL</h4>";
+    echo "<h4>Ingrese un nom= y contra=</h4>";
   }
 }
 //AGREGAR USUARIO
